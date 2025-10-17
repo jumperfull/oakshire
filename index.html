@@ -1,50 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oakshire</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Oakshire — Build · Explore · Belong</title>
+
+  <!-- Modern system font stack with a touch of Google font for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="description" content="Oakshire — friendly community Minecraft server. Join us to build, explore and belong." />
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">Oakshire</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="rules.html">Rules</a>
-                <a href="#discord">Discord</a>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Oakshire home">
+        <span class="brand-mark" aria-hidden="true">🌳</span>
+        <span class="brand-text">Oakshire</span>
+      </a>
+
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+          <span class="hamburger"></span>
+        </button>
+
+        <ul id="main-nav" class="nav-links" hidden>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rules.html">Rules</a></li>
+          <li><a href="#discord">Discord</a></li>
+        </ul>
+
+        <div class="header-actions">
+          <button id="theme-toggle" class="btn ghost" aria-pressed="false" title="Toggle dark mode">Dark</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main" role="main">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1 class="hero-title">Welcome to Oakshire</h1>
+          <p class="hero-sub">A warm, creative Minecraft community — Build together, explore together, belong together.</p>
+
+          <div class="hero-ctas">
+            <a class="btn primary" href="#join">Join the Server</a>
+            <a class="btn outline" href="rules.html">Server Rules</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-labelledby="server-card-title">
+          <h2 id="server-card-title" class="card-title">Server IP</h2>
+          <div class="ip-box" role="region" aria-live="polite">
+            <span id="server-ip" class="ip-text">oakshire.duckdns.org</span>
+            <div class="ip-actions">
+              <button id="copy-ip" class="btn icon" title="Copy IP to clipboard">Copy</button>
             </div>
-        </nav>
-    </header>
+          </div>
 
-    <main class="homepage-content">
-        <section class="hero">
-            <h1>Welcome to Oakshire!</h1>
-            <p>Build, Explore, Belong.</p>
-            <div class="server-info">
-                <h2>Server IP:</h2>
-                <div class="ip-container">
-                    <span id="server-ip">oakshire.duckdns.org</span>
-                    <button class="copy-button">Copy</button>
-                </div>
-            </div>
-        </section>
-    </main>
+          <div class="server-meta">
+            <span class="status online" aria-hidden="true">●</span>
+            <span class="status-text">Online — 24/7</span>
+          </div>
 
-    <footer>
-        <p>&copy; 2025 Oakshire. All rights reserved</p>
-    </footer>
+          <div id="copy-feedback" class="visually-hidden" aria-hidden="false" aria-live="polite"></div>
+        </aside>
+      </div>
+    </section>
 
-    <script>
-        document.querySelector('.copy-button').addEventListener('click', function() {
-            const ip = document.getElementById('server-ip').innerText;
-            navigator.clipboard.writeText(ip).then(() => {
-                alert('Copied the IP to your clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-        });
-    </script>
+    <section id="join" class="features container">
+      <article class="feature">
+        <h3>Community-first</h3>
+        <p>Friendly staff and active players. Events, builds, and a helpful discord.</p>
+      </article>
+      <article class="feature">
+        <h3>Stable & Fast</h3>
+        <p>Optimized server performance with careful plugin selection — play without fuss.</p>
+      </article>
+      <article class="feature">
+        <h3>Regular Events</h3>
+        <p>Build contests, adventure nights, and social gatherings to bring the community together.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="rules.html">Rules</a>
+        <a id="discord" href="#" aria-label="Join our Discord">Discord</a>
+      </nav>
+      <p class="copyright">&copy; 2025 Oakshire · Built with community in mind</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple DOM helpers
+    const el = (sel, ctx = document) => ctx.querySelector(sel);
+
+    // Mobile nav toggle
+    const navToggle = el('.nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      if (mainNav.hasAttribute('hidden')) {
+        mainNav.removeAttribute('hidden');
+      } else {
+        mainNav.setAttribute('hidden', '');
+      }
+    });
+
+    // Theme toggle (persists to localStorage)
+    const themeToggle = el('#theme-toggle');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('oakshire-theme');
+    if (saved) root.setAttribute('data-theme', saved);
+    const updateThemeButton = () => {
+      const theme = root.getAttribute('data-theme') || 'light';
+      themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark';
+      themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
+    };
+    updateThemeButton();
+    themeToggle.addEventListener('click', () => {
+      const cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('oakshire-theme', next);
+      updateThemeButton();
+    });
+
+    // Copy IP
+    const copyBtn = el('#copy-ip');
+    const serverIp = el('#server-ip').textContent.trim();
+    const feedback = el('#copy-feedback');
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(serverIp);
+        feedback.classList.remove('visually-hidden');
+        feedback.textContent = 'IP copied to clipboard!';
+        setTimeout(() => feedback.classList.add('visually-hidden'), 2000);
+      } catch (err) {
+        feedback.classList.remove('visually-hidden');
+        feedback.textContent = 'Copy failed — select and copy manually.';
+        setTimeout(() => feedback.classList.add('visually-hidden'), 3000);
+        console.error('Copy failed', err);
+      }
+    });
+
+    // Respect user reduced motion preference (small enhancement)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('reduce-motion');
+    }
+  </script>
 </body>
 </html>
