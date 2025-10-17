@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oakshire</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Oakshire</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="rules.html">Rules</a>
+                <a href="#discord">Discord</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="homepage-content">
+        <section class="hero">
+            <h1>Welcome to Oakshire!</h1>
+            <p>Build, Explore, Belong.</p>
+            <div class="server-info">
+                <h2>Server IP:</h2>
+                <div class="ip-container">
+                    <span id="server-ip">oakshire.duckdns.org</span>
+                    <button class="copy-button">Copy</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Oakshire. All rights reserved</p>
+    </footer>
+
+    <script>
+        document.querySelector('.copy-button').addEventListener('click', function() {
+            const ip = document.getElementById('server-ip').innerText;
+            navigator.clipboard.writeText(ip).then(() => {
+                alert('Copied the IP to your clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        });
+    </script>
+</body>
+</html>
